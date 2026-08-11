@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/members")
 public class MemberController {
-
+    
     @GetMapping
     public List<MemberResponse> getMembers() {
         return List.of(

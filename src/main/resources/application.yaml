@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: hello-member
+  profiles:
+    active: local
+    lifecycle:
+      timeout-per-shutdown-phase: 30s
+    config:
+      import: classpath:config/actuator.yml
+
+server:
+  shutdown: graceful
