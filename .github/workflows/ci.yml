@@ -43,3 +43,14 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.IMAGE_NAME }}:latest
+
+      - name: Update manifest repo
+        run: |
+          git clone https://x-access-token:${{ secrets.MANIFEST_REPO_TOKEN }}@github.com/nhn-academy-marco/cicd-kubernetes-hello-manifests.git
+          cd cicd-kubernetes-hello-manifests
+          sed -i "s|image: ghcr.io/nhn-academy-marco/member-api:.*|image: ghcr.io/nhn-academy-marco/member-api:${{ github.sha }}|" api/member/deployment.yaml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add api/member/deployment.yaml
+          git commit -m "chore: update image to ${{ github.sha }}" || echo "No changes to commit"
+          git push
